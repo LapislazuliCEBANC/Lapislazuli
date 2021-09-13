@@ -1,2 +1,2 @@
-# Lapislazuli
+# Lapislázuli
 Animated Pork
