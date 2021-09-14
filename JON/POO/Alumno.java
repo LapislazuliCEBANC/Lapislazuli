@@ -1,4 +1,4 @@
-
+package JON.POO;
 
 public class Alumno extends Persona {
 
