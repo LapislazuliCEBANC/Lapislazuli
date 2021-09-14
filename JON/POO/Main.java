@@ -17,11 +17,15 @@ public class Main {
 		apellido = sc.nextLine();
 		System.out.println("Cual es el DNI de "+nombre);
 		dni = sc.nextLine();
+		while(dni.length()!=9){
+			System.out.println("Introduzca el numero en el formato adecuado (12345678A)");
+			dni = sc.next();
+		}
 		System.out.println("Cual es el numero de telefono de "+nombre+" (itroduzcalo todo seguido)?");
 		telefono = sc.next();
 		while(telefono.length()!=9){
 			System.out.println("Introduzca el numero en el formato adecuado (123456789)");
-			sc.next();
+			telefono = sc.next();
 		}
 		System.out.println("En que curso esta "+nombre+"?");
 		curso = sc.nextInt();
@@ -31,6 +35,10 @@ public class Main {
 		}
 		System.out.println("Cual es la nota de "+nombre+"?");
 		nota = sc.nextFloat();
+		while(nota<0 || nota>10){
+			System.out.println("La nota no puede ser menor que 0 nio mayor que 10");
+			nota = sc.nextInt();
+		}
 		alumno = new Alumno(nombre, apellido, dni, telefono, curso, nota);
 		return alumno;
 	}
@@ -136,47 +144,63 @@ public class Main {
 		return posicion;
 	}
 
+	public static void mostrarAlumnos(ArrayList<Alumno> alumnos){
+		System.out.println("Estos son los alumnos matriculados:");
+		for(int i = 0; i<alumnos.size(); i++){
+			System.out.println((i+1)+"---------------\n"+alumnos.get(i).toString());
+		}
+	}
+	
+	public static void mostrarProfesores(ArrayList<Profesor> profesores){
+		System.out.println("Estos son los Profesores que imparten clase:");
+		for(int i = 0; i<profesores.size(); i++){
+			System.out.println((i+1)+"---------------\n"+profesores.get(i).toString());
+		}
+	}
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		char opcion;
+		int opcion;
 		boolean repetir = true;
 		ArrayList<Alumno> alumnos = new ArrayList<>();
 		ArrayList<Profesor> profesores = new ArrayList<>();
 
 		while(repetir) {
 
-			System.out.println("\nEliga una opcion:\n1-Añadir Alumno\n2-Añadir Profesor\n3-Eliminar Alumno\n4-Eliminar Profesor\n5-Cantidad de alumnos en primero y segundo\n6-Porcentaje de alumnos aprobados por curso\n7-Obtener profesor con mas asignaturas y ademas de ser profesor\n8-Salir");
-			opcion = sc.next().charAt(0);
+			System.out.println("\nEliga una opcion:\n1-Añadir Alumno\n2-Añadir Profesor\n3-Mostrar Alumnos\n4-Mostrar Profesores\n5-Eliminar Alumno\n6-Eliminar Profesor\n7-Cantidad de alumnos en primero y segundo\n8-Porcentaje de alumnos aprobados por curso\n9-Obtener profesor con mas asignaturas y ademas de ser profesor\n10-Salir");
+			opcion = sc.nextInt();
 			switch (opcion) {
-			case '1':
+			case 1:
 				alumnos.add(anadirAlumno(sc));
 				break;
-			case '2':
+			case 2:
 				profesores.add(anadirProfesor(sc));
 				break;
-			case '3':
+			case 3:
+				mostrarAlumnos(alumnos);
+				break;
+			case 4:
+				mostrarProfesores(profesores);
+				break;
+			case 5:
 				alumnos.remove(eliminarAlumno(sc, alumnos));
 				break;
-			case '4':
+			case 6:
 				profesores.remove(eliminarProfesor(sc,profesores));
 				break;
-			case '5':
+			case 7:
 				System.out.println("Hay un total de "+alumnos.size()+" en primero y segundo");
 				break;
-			case '6':
+			case 8:
 				System.out.println("Hay un total de "+aprobados(alumnos)+"% de aprobados");
 				break;
-			case '7':
+			case 9:
 				System.out.println("El profesor que es tutor y con mas asignaturas es\n"+profesores.get(maximoAsignaturas(profesores)).getNombre()+" con un total de "+profesores.get(maximoAsignaturas(profesores)).getCantidadAsignaturas()+" asignaturas");
 				break;
-			case '8':
+			case 10:
 				repetir = false;
 				break;
 			default:
-				for(int i = 0; i<profesores.size(); i++) {
-					System.out.println(profesores.get(i).toString());
-				}
-
+				repetir = false;
 				break;
 			}
 			sc.nextLine();
