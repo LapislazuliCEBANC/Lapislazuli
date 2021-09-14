@@ -1,134 +1,186 @@
-package AaD;
+package jon_POO;
+
+import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class test {
+	public static Alumno anadirAlumno(Scanner sc) {
+		sc.nextLine();
+		String nombre, apellido, dni, telefono;
+		int curso;
+		float nota;
+		Alumno alumno;
+		System.out.println("Cual es el nombre del alumno?");
+		nombre = sc.nextLine();
+		System.out.println("Cual es el apellido de "+nombre+"?");
+		apellido = sc.nextLine();
+		System.out.println("Cual es el DNI de "+nombre);
+		dni = sc.nextLine();
+		System.out.println("Cual es el numero de telefono de "+nombre+" (itroduzcalo todo seguido)?");
+		telefono = sc.next();
+		while(telefono.length()!=9){
+			System.out.println("Introduzca el numero en el formato adecuado (123456789)");
+			sc.next();
+		}
+		System.out.println("En que curso esta "+nombre+"?");
+		curso = sc.nextInt();
+		while(curso!=1 && curso!=2) {
+			System.out.println("El curso debe de ser entre 1 y 2");
+			curso = sc.nextInt();
+		}
+		System.out.println("Cual es la nota de "+nombre+"?");
+		nota = sc.nextFloat();
+		alumno = new Alumno(nombre, apellido, dni, telefono, curso, nota);
+		return alumno;
+	}
+
+	public static Profesor anadirProfesor(Scanner sc) {
+		sc.nextLine();
+		String nombre, apellido, dni, telefono;
+		int cantidadAsignaturas;
+		boolean esTutor;
+		char comprobador;
+		Profesor profesor;
+		System.out.println("Cual es el nombre del Profesor?");
+		nombre = sc.nextLine();
+		System.out.println("Cual es el apellido de "+nombre+"?");
+		apellido = sc.nextLine();
+		System.out.println("Cual es el DNI de "+nombre);
+		dni = sc.nextLine();
+		System.out.println("Cual es el numero de telefono de "+nombre+" (itroduzcalo todo seguido)?");
+		telefono = sc.next();
+		while(telefono.length()!=9){
+			System.out.println("Introduzca el numero en el formato adecuado (123456789)");
+			sc.next();
+		}
+		System.out.println("Cuantas asignaturas imparte "+nombre+"?");
+		cantidadAsignaturas = sc.nextInt();
+		System.out.println("El profesor "+nombre+" es tutor? s=si n=no");
+		comprobador = sc.next().charAt(0);
+		while(comprobador != 's' && comprobador != 'n') {
+			System.out.println("Las respuestas validas son s=si n=no");
+			comprobador = sc.next().charAt(0);
+		}
+		if(comprobador == 's') {
+			esTutor = true;
+		}else { 
+			esTutor = false;
+		}
+		profesor = new Profesor(nombre, apellido, dni, telefono, cantidadAsignaturas, esTutor);
+		return profesor;
+	}
+
+	public static int eliminarAlumno(Scanner sc, ArrayList<Alumno> alumnos){
+		sc.nextLine();
+		int eliminador = -1;
+		String mostrador;
+		System.out.println("A que alumno desea eliminar?");
+		for (int i = 0; i < alumnos.size(); i++) {
+			mostrador = alumnos.get(i).getNombre();
+			System.out.println((i+1)+"-"+mostrador);
+		}
+		eliminador=sc.nextInt()-1;
+		while (eliminador+1>alumnos.size() || eliminador<0) {
+			System.out.println("Porfavor introduzca el numero correspondiente al nombre");
+			for (int i = 0; i < alumnos.size(); i++) {
+				mostrador = alumnos.get(i).getNombre();
+				System.out.println((i+1)+"-"+mostrador);
+			}
+			eliminador=sc.nextInt()-1;
+		}
+		return eliminador;
+	}
+
+	public static int eliminarProfesor(Scanner sc, ArrayList<Profesor> profesores){
+		sc.nextLine();
+		int eliminador = -1;
+		String mostrador;
+		System.out.println("A que profesor desea eliminar?");
+		for (int i = 0; i < profesores.size(); i++) {
+			mostrador = profesores.get(i).getNombre();
+			System.out.println((i+1)+"-"+mostrador);
+		}
+		while (eliminador+1>profesores.size() || eliminador<0) {
+			System.out.println("Porfavor introduzca el numero correspondiente al nombre");
+			for (int i = 0; i < profesores.size(); i++) {
+				mostrador = profesores.get(i).getNombre();
+				System.out.println((i+1)+"-"+mostrador);
+			}
+			eliminador=sc.nextInt()-1;
+		}
+		eliminador=sc.nextInt()-1;
+		return eliminador;
+	}
+
+	public static int aprobados(ArrayList<Alumno> alumnos) {
+		int contador = 0, total = 0;
+		for (int i = 0; i < alumnos.size(); i++) {
+			if(alumnos.get(i).getNota()>=5) {
+				contador++;
+			}
+		}
+		total = contador*100/alumnos.size();
+		return total;
+	}
+
+	public static int maximoAsignaturas(ArrayList<Profesor> profesores) {
+		int posicion = 0;
+		for (int i = 0; i < profesores.size(); i++) {
+			if (profesores.get(i).isEsTutor()) {
+				if(profesores.get(posicion).getCantidadAsignaturas()<profesores.get(i).getCantidadAsignaturas() || profesores.get(posicion).isEsTutor() == false) {
+					posicion=i;
+				}
+			}
+		}
+		return posicion;
+	}
+
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
-		String nombres[];
-		int edades[];
-		
-		int dim,mayedad,minedad,nomlargo;
-		float media;
-		
-		
-		dim=CantidadAlumnos(sc);
-		
-		sc.nextLine();	
-		
-		nombres = new String[dim];
-		nombres=NombresAlumnos(dim,sc);
-		
-		edades = new int[dim];
-		edades=EdadesAlumnos(dim,sc);
-		
-		media=Media(edades,dim);
-		
-		mayedad=MayorEdad(edades);
-		minedad=MinimoEdad(edades);
-		
-		nomlargo=LongitudNombre(nombres,dim);
-		
-		Imprimir(nombres,edades,media,mayedad,minedad,nomlargo,dim);
+		char opcion;
+		boolean repetir = true;
+		ArrayList<Alumno> alumnos = new ArrayList<>();
+		ArrayList<Profesor> profesores = new ArrayList<>();
 
+		while(repetir) {
+
+			System.out.println("\nEliga una opcion:\n1-Añadir Alumno\n2-Añadir Profesor\n3-Eliminar Alumno\n4-Eliminar Profesor\n5-Cantidad de alumnos en primero y segundo\n6-Porcentaje de alumnos aprobados por curso\n7-Obtener profesor con mas asignaturas y ademas de ser profesor\n8-Salir");
+			opcion = sc.next().charAt(0);
+			switch (opcion) {
+			case '1':
+				alumnos.add(anadirAlumno(sc));
+				break;
+			case '2':
+				profesores.add(anadirProfesor(sc));
+				break;
+			case '3':
+				alumnos.remove(eliminarAlumno(sc, alumnos));
+				break;
+			case '4':
+				profesores.remove(eliminarProfesor(sc,profesores));
+				break;
+			case '5':
+				System.out.println("Hay un total de "+alumnos.size()+" en primero y segundo");
+				break;
+			case '6':
+				System.out.println("Hay un total de "+aprobados(alumnos)+"% de aprobados");
+				break;
+			case '7':
+				System.out.println("El profesor que es tutor y con mas asignaturas es\n"+profesores.get(maximoAsignaturas(profesores)).getNombre()+" con un total de "+profesores.get(maximoAsignaturas(profesores)).getCantidadAsignaturas()+" asignaturas");
+				break;
+			case '8':
+				repetir = false;
+				break;
+			default:
+				for(int i = 0; i<profesores.size(); i++) {
+					System.out.println(profesores.get(i).toString());
+				}
+
+				break;
+			}
+			sc.nextLine();
+		}
 		sc.close();
 	}
 
-	public static int CantidadAlumnos(Scanner sc) {
-		int Num;
-		
-			System.out.println("Cuantos alumnos quieras dar de alta");
-			Num = sc.nextInt();
-		
-		return Num;
-	}
-	
-	public static String[] NombresAlumnos(int dim,Scanner sc) {
-		String Nombres[] = new String[dim];
-		
-		for(int i=0; i<Nombres.length; i++) {
-			System.out.println("Introduce el nombre del alumno "+(i+1));
-			Nombres[i] = sc.nextLine();
-		}
-		
-		return Nombres;
-	}
-	
-	public static int[] EdadesAlumnos(int dim,Scanner sc) {
-		int Edades[] = new int[dim];
-		
-		for(int i=0; i<Edades.length; i++) {
-			System.out.println("Introduce la edad del alumno "+(i+1));
-			Edades[i] = sc.nextInt();
-		}
-		
-		return Edades;
-	}
-	
-	public static float Media(int[] edades,int dim) {
-		float Media=0;
-		int Sum=0;
-		
-		for(int i=0; i<dim; i++) {
-			Sum+=edades[i];
-		}
-		
-		Media=(float)Sum/dim;
-		
-		return Media;
-	}
-	
-	public static int MayorEdad(int[] edades) {
-		int MaxEdad=0;
-		
-		for(int i=1; i<edades.length; i++) {
-			if(edades[i]>edades[i-1]) {
-				MaxEdad=i;
-			}
-		}
-		
-		return MaxEdad;
-	}
-	
-	public static int MinimoEdad(int[] edades) {
-		int MinEdad=0;
-		
-		for(int i=edades.length-2; i>=0; i--) {
-			if(edades[i]<edades[i+1]) {
-				MinEdad=i;
-			}
-		}
-		
-		return MinEdad;
-	}
-	
-	public static int LongitudNombre(String[] nombres,int dim) {
-		int NombreLargo=0;
-		
-		for(int i=1; i<nombres.length; i++) {
-			if(nombres[i].length()>nombres[NombreLargo].length()) {
-				NombreLargo=i;
-			}
-		}
-		
-		return NombreLargo;
-	}
-	
-	public static void Imprimir(String[] nombres,int[] edades,float media,int mayedad,int minedad,int nomlargo,int dim) {
-		
-		for(int i=0; i<dim; i++) {
-			System.out.println("Alumno "+nombres[i]+" Edad "+edades[i]);
-		}
-		
-		System.out.println("La media de edades es "+media);
-		System.out.println("El alumno "+nombres[mayedad]+" es el mas boomer con "+edades[mayedad]);
-		System.out.println("El alumno "+nombres[minedad]+" es el mas milenial con "+edades[minedad]);
-		System.out.println("El alumno con el nombre mas largo es "+nombres[nomlargo]);
-	
-	}
-		
-	public static void FinPrograma() {
-		System.out.println("\nEl programa ha finalizado");
-	}
-	
 }
