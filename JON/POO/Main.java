@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+	
 	public static Alumno anadirAlumno(Scanner sc) {
 		sc.nextLine();
 		String nombre, apellido, dni, telefono;
