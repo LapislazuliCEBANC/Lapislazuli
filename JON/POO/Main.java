@@ -1,4 +1,4 @@
-package JON;
+package JON.POO;
 
 import java.util.ArrayList;
 import java.util.Scanner;

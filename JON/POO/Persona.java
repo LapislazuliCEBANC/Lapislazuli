@@ -1,4 +1,4 @@
-
+package JON.POO;
 
 public class Persona {
 	private String nombre, apellido, dni, telefono;
