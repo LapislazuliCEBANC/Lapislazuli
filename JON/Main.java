@@ -1,9 +1,9 @@
-package jon_POO;
+package JON;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class test {
+public class Main {
 	public static Alumno anadirAlumno(Scanner sc) {
 		sc.nextLine();
 		String nombre, apellido, dni, telefono;
