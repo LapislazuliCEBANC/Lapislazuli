@@ -41,4 +41,9 @@ public class Persona {
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
+
+	@Override
+	public String toString() {
+		return "Nombre: "+nombre+"\nApellido: "+apellido+"\nDNI: "+dni+"\nTelefono: "+telefono;
+	}
 }

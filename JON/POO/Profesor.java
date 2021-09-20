@@ -11,11 +11,6 @@ public class Profesor extends Persona {
 		this.esTutor=esTutor;
 	}
 
-	@Override
-	public String toString() {
-		return "Profesor [cantidadAsignaturas=" + cantidadAsignaturas + ", esTutor=" + esTutor + "]";
-	}
-
 	public int getCantidadAsignaturas() {
 		return cantidadAsignaturas;
 	}
@@ -30,6 +25,11 @@ public class Profesor extends Persona {
 
 	public void setEsTutor(boolean esTutor) {
 		this.esTutor = esTutor;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString()+"\nCantidad de asignaturas: "+cantidadAsignaturas+"\nEs tutor: "+esTutor;
 	}
 	
 }

@@ -27,5 +27,9 @@ public class Alumno extends Persona {
 		this.nota = nota;
 	}
 
-	
+	@Override
+	public String toString() {
+		
+		return super.toString()+"\nCurso: "+curso+"\nnota: "+nota;
+	}
 }
